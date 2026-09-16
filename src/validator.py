@@ -1,4 +1,5 @@
 def validate(pdf_bytes: bytes) -> None:
+    """Perform basic validation checks before the PDF file is even opened."""
     if not pdf_bytes:
         raise ValueError("The file is empty!")
 
