@@ -1,6 +1,5 @@
 from src import validator, pdf_reader, summarizer
 from fastapi import FastAPI, File, UploadFile, HTTPException
-import pymupdf
 
 app = FastAPI()
 
@@ -17,7 +16,7 @@ async def summarize_pdf(file: UploadFile = File(...)):
         text = pdf_reader.extract_text(pdf_bytes)
         summary = summarizer.summarize(text)
 
-    except (ValueError, pymupdf.FileDataError) as err: # in case there is an error in the uploaded file
+    except (ValueError, pdf_reader.PDFDataError) as err: # in case there is an error in the uploaded file
         raise HTTPException(400, f"The uploaded file is invalid!\n {err}")
     
     except summarizer.SummarizationError as summarization_err: # in case the error is on the LLM side
