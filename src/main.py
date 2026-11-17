@@ -9,7 +9,7 @@ def read_root():
 
 @app.post("/summarize")
 async def summarize_pdf(file: UploadFile = File(...)):
-    pdf_bytes = await file.read()
+    pdf_bytes = await file.read(validator.MAX_PDF_SIZE_BYTES + 1)
 
     try:
         validator.validate(pdf_bytes)

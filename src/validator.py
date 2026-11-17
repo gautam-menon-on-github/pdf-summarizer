@@ -1,9 +1,11 @@
+MAX_PDF_SIZE_BYTES = 1024 * 1024 * 10
+
 def validate(pdf_bytes: bytes) -> None:
     """Perform basic validation checks before the PDF file is even opened."""
     if not pdf_bytes:
         raise ValueError("The file is empty!")
 
-    if len(pdf_bytes) > 1024 * 1024 * 10:
+    if len(pdf_bytes) > MAX_PDF_SIZE_BYTES:
         raise ValueError("File size exceeds 10MB!")
 
     if pdf_bytes[:5] != b"%PDF-":
