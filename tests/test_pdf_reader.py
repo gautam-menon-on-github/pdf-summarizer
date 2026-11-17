@@ -9,7 +9,11 @@ def test_extract_text():
 
     assert "Attention" in doc_text
 
-# test_pdf_reader.py
 def test_extract_text_pdf_garbage():
     with pytest.raises(pdf_reader.PDFDataError):
         pdf_reader.extract_text(b"%PDF-" + b"12345")
+
+def test_extract_text_blank_file():
+    with open("tests/fixtures/empty_pdf_file.pdf", "rb") as f:
+        with pytest.raises(pdf_reader.EmptyPDFError):
+            pdf_reader.extract_text(f.read())

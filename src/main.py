@@ -16,6 +16,9 @@ async def summarize_pdf(file: UploadFile = File(...)):
         text = pdf_reader.extract_text(pdf_bytes)
         summary = summarizer.summarize(text)
 
+    except pdf_reader.EmptyPDFError:
+        raise HTTPException(422, "The uploaded PDF contains no extractable text.")
+
     except (ValueError, pdf_reader.PDFDataError) as err: # in case there is an error in the uploaded file
         raise HTTPException(400, f"The uploaded file is invalid!\n {err}")
     
