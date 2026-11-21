@@ -22,7 +22,7 @@ async def summarize_pdf(file: UploadFile = File(...)):
     except (ValueError, pdf_reader.PDFDataError) as err: # in case there is an error in the uploaded file
         raise HTTPException(400, f"The uploaded file is invalid!\n {err}")
     
-    except summarizer.SummarizationError as summarization_err: # in case the error is on the LLM side
-        raise HTTPException(500, f"Some error occured on our end!\n {summarization_err}")
+    except summarizer.SummarizationError: # in case the error is on the LLM side
+        raise HTTPException(500, "Summarization failed due to an internal error. Please try again later.")
 
     return {"summary": summary}
